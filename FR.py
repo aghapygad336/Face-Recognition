@@ -22,4 +22,5 @@ for f1 in files:
 
        
 ##fixing shapevip
-    
+d=np.reshape(mydata, (400, 10304))
+print(d.shape)
