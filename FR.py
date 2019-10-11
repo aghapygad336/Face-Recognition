@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 from PIL import Image
 
-img_dir = "D:\PR1\ATT" # Enter Directory of all images 
+img_dir = "D:\PR1\Face-Recognition\ATT" # Enter Directory of all images 
 data_path = os.path.join(img_dir,'*g')
 files = glob.glob(data_path)
 data = []
