@@ -18,9 +18,9 @@ for f1 in files:
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     data.append(gray)
     mydata = np.array(data)
-    print("Images",mydata)
+    print("Image : \n",mydata)
 
        
-##fixing shapevip
+##fixing shapev->400*10304
 d=np.reshape(mydata, (400, 10304))
-print(d.shape)
+print("Shape od D matrix :",d.shape)
