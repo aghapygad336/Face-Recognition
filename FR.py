@@ -23,17 +23,21 @@ print("Shape od D matrix :",d.shape)
 np.savetxt("bigD.csv", d, delimiter=",")
 #prepare the Labels
 nameOflabels = []
+personN=1
 
-for i in range(0, 10304):
-    personN=1
+for i in range(1,401):
+
     person= str(personN)
     nameOflabels.append(person)
-    if (personN%40)<1:
-            personN = personN +1
-    
+    print("LOOP")
+    z=i%40
+    if z<1:
+
+         print("**IF**",personN)
+         personN = personN +1
+     
+         
 
 d = pd.read_csv("bigD.csv", sep=',')
-    
-xx = d.iloc[:, 0:10304]  # independent columns
-xx.columns =nameOflabels
-print(xx)
+xx = d.iloc[:, 0:400]  # independent columns
+print(nameOflabels)
