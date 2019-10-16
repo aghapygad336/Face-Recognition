@@ -63,6 +63,31 @@ for i in range(d.shape[0]):
       
 print ("*******************PCA****************")      
 #mean
+from numpy import linalg as LA 
       
 mean_train_data = np.mean(train_data, axis=0).reshape(10304,1)
 mean_test_data = np.mean(test_data, axis=0).reshape(10304,1)
+#Z=data -one.mean
+z_Train = train_data - np.ones((200,1)).dot(mean_train_data.T)
+z_Test = test_data - np.ones((200,1)).dot(mean_test_data.T)
+
+#covariance matrix
+covarianceMatrix_Training = (1/len(z_Train))*np.matmul(np.transpose(z_Train),z_Train)
+covarianceMatrix_Testing = (1/len(z_Test))*np.matmul(np.transpose(z_Test),z_Test)
+
+eigenValues_train_data,eigenVectors_train_data = LA.eigh(covarianceMatrix_Training)  
+eigenValues_test_data,eigenVectors_test_data = LA.eigh(covarianceMatrix_Testing)  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
