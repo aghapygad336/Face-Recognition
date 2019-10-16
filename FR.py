@@ -28,7 +28,6 @@ for i in range(1,401):
 
     person= str(personN)
     nameOflabels.append(person)
-    print("LOOP")
     z=i%40
     if z<1:
 
@@ -37,3 +36,33 @@ for i in range(1,401):
      
          
 df = pd.DataFrame(d, index=nameOflabels)
+i_train=0
+i_test=0
+train_split_value = int(d.shape[0]*(5/10))
+test_split_value = d.shape[0] - train_split_value
+    
+train_data = np.zeros((train_split_value,10304))
+train_labels = np.zeros((train_split_value,1)) 
+    
+test_data = np.zeros((test_split_value,10304))
+test_labels = np.zeros((test_split_value,1))
+for i in range(d.shape[0]):
+        #even
+    if i%2==0:
+       test_data[i_test,:] = d[i]
+       test_labels[i_test] = nameOflabels[i]
+       i_test+=1
+        #odd
+    
+    else:
+      train_data[i_train,:] = d[i]
+      train_labels[i_train] = nameOflabels[i]
+      print( nameOflabels[i])
+      i_train+=1
+      
+      
+print ("*******************PCA****************")      
+#mean
+      
+mean_train_data = np.mean(train_data, axis=0).reshape(10304,1)
+mean_test_data = np.mean(test_data, axis=0).reshape(10304,1)
