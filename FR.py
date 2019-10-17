@@ -4,6 +4,15 @@ import glob
 import numpy as np
 import pandas as pd
 
+
+def findAlpha (a,alpha,E_Values_Sorted):
+    for i in range(a,10304):
+        B = float(sum(E_Values_Sorted))
+        T = float(sum(E_Values_Sorted[:i]))
+        if(T/B >= alpha):
+            return i
+
+
 img_dir = "D:\PR1\Face-Recognition\ATT" # Enter Directory of all images 
 data_path = os.path.join(img_dir,'*g')
 files = glob.glob(data_path)
@@ -86,19 +95,21 @@ idx = eigenValues_train_data.argsort()[::-1]
 eigenValuesSorted = eigenValues_train_data[idx]
 eigenVectorsSorted = eigenVectors_train_data[:,idx]
 
+#type(eigenVectorsSorted)
+
+
+#Out[3]: numpy.ndarray
+
+
 #select largest 
 chosen_Alpha= [0.8,0.85,0.9,0.95]
 for a in chosen_Alpha:
-    for index in range(a,10304):
-        B = float(sum(eigenValuesSorted))
-        T = float(sum(eigenValuesSorted[:index]))
-        if(T/B >= a):
-            W=index
+    W= findAlpha(0,a,eigenValuesSorted)
+       
     New_Matrix = eigenVectorsSorted[: , 0 : W + 1]
     U_Train = np.dot(New_Matrix.T , z_Train.T)
     U_Test = np.dot(New_Matrix.T , z_Test.T)
     print("For Alpha: " + str(a))
-print(W)
 
 
 
