@@ -76,14 +76,29 @@ z_Test = test_data - np.ones((200,1)).dot(mean_test_data.T)
 covarianceMatrix_Training = (1/len(z_Train))*np.matmul(np.transpose(z_Train),z_Train)
 covarianceMatrix_Testing = (1/len(z_Test))*np.matmul(np.transpose(z_Test),z_Test)
 
-eigenValues_train_data,eigenVectors_train_data = LA.eigh(covarianceMatrix_Training)  
+eigenValues_train_data,eigenVectors_train_data = LA.eigh(covarianceMatrix_Training)
 eigenValues_test_data,eigenVectors_test_data = LA.eigh(covarianceMatrix_Testing)  
-#step Sorting 
+#step Sorting using the train data 
+  
 
 
+idx = eigenValues_train_data.argsort()[::-1]   
+eigenValuesSorted = eigenValues_train_data[idx]
+eigenVectorsSorted = eigenVectors_train_data[:,idx]
 
-
-
+#select largest 
+chosen_Alpha= [0.8,0.85,0.9,0.95]
+for a in chosen_Alpha:
+    for index in range(a,10304):
+        B = float(sum(eigenValuesSorted))
+        T = float(sum(eigenValuesSorted[:index]))
+        if(T/B >= a):
+            W=index
+    New_Matrix = eigenVectorsSorted[: , 0 : W + 1]
+    U_Train = np.dot(New_Matrix.T , z_Train.T)
+    U_Test = np.dot(New_Matrix.T , z_Test.T)
+    print("For Alpha: " + str(a))
+print(W)
 
 
 
