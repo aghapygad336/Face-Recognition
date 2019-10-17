@@ -5,10 +5,11 @@ import numpy as np
 import pandas as pd
 
 
-def findAlpha (a,alpha,E_Values_Sorted):
+def findAlpha (a,alpha,EigenValuesSorted):
     for i in range(a,10304):
-        B = float(sum(E_Values_Sorted))
-        T = float(sum(E_Values_Sorted[:i]))
+        #Find the Variance 
+        B = float(sum(EigenValuesSorted))
+        T = float(sum(EigenValuesSorted[:i]))
         if(T/B >= alpha):
             return i
 
@@ -106,13 +107,13 @@ chosen_Alpha= [0.8,0.85,0.9,0.95]
 for a in chosen_Alpha:
     W= findAlpha(0,a,eigenValuesSorted)
        
-    New_Matrix = eigenVectorsSorted[: , 0 : W + 1]
-    U_Train = np.dot(New_Matrix.T , z_Train.T)
-    U_Test = np.dot(New_Matrix.T , z_Test.T)
+    NewW = eigenVectorsSorted[: , 0 : W + 1]
+    wTrain = np.dot(NewW.T , z_Train.T)
+    west = np.dot(NewW.T , z_Test.T)
     print("For Alpha: " + str(a))
 
 
-
+print ("PCA is Wrking YAAAY ")
 
 
 
