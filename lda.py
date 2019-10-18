@@ -85,5 +85,4 @@ for i in range(1, 401):
 data = pd.DataFrame(data=d)
 data['labels'] = labels
 
-ld = LDA()
-ld.LDA(data)
+LDA(data)
