@@ -32,17 +32,17 @@ print("Shape od D matrix :",d.shape)
 
 #prepare the Labels
 nameOflabels = []
-personN=1
+label=1
 
 for i in range(1,401):
 
-    person= str(personN)
-    nameOflabels.append(person)
+    labelX= str(label)
+    nameOflabels.append(labelX)
     z=i%40
     if z<1:
 
-         print("**IF**",personN)
-         personN = personN +1
+         print("**IF**",label)
+         label = label +1
      
          
 df = pd.DataFrame(d, index=nameOflabels)
