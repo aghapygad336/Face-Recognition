@@ -4,7 +4,6 @@ import glob
 import numpy as np
 import pandas as pd
 
-
 def findAlpha (a,alpha,EigenValuesSorted):
     for i in range(a,10304):
         #Find the Variance 
@@ -13,8 +12,8 @@ def findAlpha (a,alpha,EigenValuesSorted):
         if(T/B >= alpha):
             return i
 
-
-img_dir = "D:\PR1\Face-Recognition\ATT" # Enter Directory of all images 
+# img_dir = "D:\PR1\Face-Recognition\ATT" # Enter Directory of all images 
+img_dir = "./ATT" # Enter Directory of all images 
 data_path = os.path.join(img_dir,'*g')
 files = glob.glob(data_path)
 data = []
@@ -25,7 +24,7 @@ for f1 in files:
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     data.append(gray)
     mydata = np.array(data)
-    print("Image : \n",mydata)
+    # print("Image : \n",mydata)
 ##fixing shapev->400*10304
 d=np.reshape(mydata, (400, 10304))
 print("Shape od D matrix :",d.shape)
@@ -40,11 +39,9 @@ for i in range(1,401):
     nameOflabels.append(person)
     z=i%40
     if z<1:
+        print("**IF**",personN)
+        personN = personN +1
 
-         print("**IF**",personN)
-         personN = personN +1
-     
-         
 df = pd.DataFrame(d, index=nameOflabels)
 i_train=0
 i_test=0
@@ -67,10 +64,9 @@ for i in range(d.shape[0]):
     else:
       train_data[i_train,:] = d[i]
       train_labels[i_train] = nameOflabels[i]
-      print( nameOflabels[i])
+    #   print( nameOflabels[i])
       i_train+=1
-      
-      
+
 print ("*******************PCA****************")      
 #mean
 from numpy import linalg as LA 
@@ -90,7 +86,6 @@ eigenValues_train_data,eigenVectors_train_data = LA.eigh(covarianceMatrix_Traini
 eigenValues_test_data,eigenVectors_test_data = LA.eigh(covarianceMatrix_Testing)  
 #step Sorting using the train data 
   
-
 
 idx = eigenValues_train_data.argsort()[::-1]   
 eigenValuesSorted = eigenValues_train_data[idx]
@@ -114,8 +109,6 @@ for a in chosen_Alpha:
 
 
 print ("PCA is Wrking YAAAY ")
-
-
 
 
 
