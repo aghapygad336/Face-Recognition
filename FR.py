@@ -97,8 +97,6 @@ eigenValuesSorted = eigenValues_train_data[idx]
 eigenVectorsSorted = eigenVectors_train_data[:,idx]
 
 #type(eigenVectorsSorted)
-
-
 #Out[3]: numpy.ndarray
 
 
@@ -106,16 +104,12 @@ eigenVectorsSorted = eigenVectors_train_data[:,idx]
 chosen_Alpha= [0.8,0.85,0.9,0.95]
 for a in chosen_Alpha:
     W= findAlpha(0,a,eigenValuesSorted)
-       
     NewW = eigenVectorsSorted[: , 0 : W + 1]
     wTrain = np.dot(NewW.T , z_Train.T)
-    west = np.dot(NewW.T , z_Test.T)
+    wTest = np.dot(NewW.T , z_Test.T)
     print("For Alpha: " + str(a))
-
-
-print ("PCA is Wrking YAAAY ")
-
-
+    
+    
 
 
 
