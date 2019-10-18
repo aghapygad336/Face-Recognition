@@ -37,10 +37,11 @@ for i in range(1,401):
 
     person= str(personN)
     nameOflabels.append(person)
-    z=i%40
+    z=i%10
     if z<1:
         print("**IF**",personN)
         personN = personN +1
+print(nameOflabels)
 
 df = pd.DataFrame(d, index=nameOflabels)
 i_train=0
@@ -109,6 +110,4 @@ for a in chosen_Alpha:
 
 
 print ("PCA is Wrking YAAAY ")
-
-
 

@@ -4,30 +4,53 @@ import glob
 import cv2
 import pandas as pd
 
-class LDA:
-    def LDA(self,data):
-        labels = data.labels.unique()
-        feature_mean = []
-        for i in labels:
-            means = [np.mean(data[data['labels'] == i].drop('labels',axis=1)[col]) for col in data.columns]
-            feature_mean = [means]
-        print(len(feature_mean),len(feature_mean[0]))
-        # mean1 = np.mean(data[data[2] == 1][[0, 1]])
-        # mean2 = np.mean(data[data[2] == -1][[0, 1]])
-        # b = np.matmul((np.subtract(mean1, mean2)),
-        #               np.transpose((np.subtract(mean1, mean2))))
-        # z = []S
-        # z.append(np.subtract(data[data[2] == 1][[0, 1]], np.matmul(
-        #     np.transpose(mean1), [1, 1, 1, 1, 1])))
-        # z.append(np.subtract(data[data[2] == -1][[0, 1]],
-        #                      np.matmul(np.transpose(mean2), [1, 1, 1, 1, 1])))
-        # s = []
-        # s.append(np.matmul(np.transpose(z[[0, 1]]), z[[0, 1]]))
-        # s.append(np.matmul(np.transpose(z[1]), z[1]))
+from numpy import linalg as LA
 
-        # s_tot = np.add([0], s[1])
 
-        # values, vectors = np.linalg.eig(np.array(np.linalg.inv(s_tot))*b)
+def LDA(data):
+    labels = data.labels.unique()
+    feature_mean_for_each_label = []
+    l = 0
+
+    # means
+    for i in labels:
+        means = []
+        for col in data.columns[:-1]:
+            means.append(np.mean(data[data['labels'] == 1][col]))
+        feature_mean_for_each_label.append(means)
+    print(len(feature_mean_for_each_label),
+          len(feature_mean_for_each_label[0]))
+
+    # b
+    temp = []
+    i = 0
+    for i in range(40):
+        for k in range(40):
+            temp.append(10*np.matmul((np.subtract(feature_mean_for_each_label[i], feature_mean_for_each_label[k])),
+                                     np.transpose(np.subtract(feature_mean_for_each_label[i], feature_mean_for_each_label[k]))))
+        print(i+1/40)
+        i = i + 1
+    B = np.sum(temp)
+    print(B)
+    '''
+    #z[i]
+    z = []
+    for i in range(40):
+        z.append(np.subtract(data[data['labels']==i][:-1],np.transpose(feature_mean_for_each_label[i])))
+
+    print(z[0])         
+                
+                
+    #s[i]
+    s = []
+    for i in range(40):
+        s.append(np.matmul(z[i],np.transpose(z[i])))
+    S = np.sum(s)
+
+    #eigenvalues and eigenvectors
+    eigenvalues,eigenvectors = LA.eigh(np.matmul(LA.inv(S),B))
+                
+        '''
 
 
 img_dir = "./ATT"  # Enter Directory of all images
@@ -47,15 +70,15 @@ d = np.reshape(mydata, (400, 10304))
 print("Shape od D matrix :", d.shape)
 
 labels = []
-personN=1
-for i in range(1,401):
+personN = 1
+for i in range(1, 401):
 
-    person= str(personN)
+    person = str(personN)
     labels.append(person)
-    z=i%10
-    if z<1:
+    z = i % 10
+    if z < 1:
         # print("**IF**",personN)
-        personN = personN +1
+        personN = personN + 1
 
 # print(labels)
 
