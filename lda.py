@@ -176,6 +176,9 @@ projMatrix = E_Vectors_Sorted[:,:39]  # first 39 columns
 U_Train_LDA_projection = np.dot(train_data , projMatrix)
 U_Test_LDA_projection = np.dot(test_data , projMatrix)
 
+print(U_Train_LDA_projection.shape)
+print(U_T_LDA_projection.shape)
+
 
 Knn(U_Train_LDA_projection,train_labels,U_Test_LDA_projection,test_labels)    
 
