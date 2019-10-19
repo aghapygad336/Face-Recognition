@@ -3,6 +3,30 @@ import os
 import glob
 import numpy as np
 import pandas as pd
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score
+import matplotlib.pyplot as plt
+
+def Knn(train_data,train_label,test_data,test_label):
+    best_n  = [1,3,5,7]
+    score = []
+    for i,neighbour in zip(range(len(best_n )),best_n ):
+        KnnTest = KNeighborsClassifier(n_neighbors = neighbour, weights = 'distance') 
+        KnnTest.fit(train_data.T, train_label) 
+        pred = KnnTest.predict(test_data.T)
+        score.append(accuracy_score(pred,test_label)) 
+        print("Accuracy score is: " + str(score[i]))
+        count = 0
+        for i in range(len(pred)):
+            print("[" + str(i) + "]" + "Classified as: "+ str(pred[i]) +" Actual is: "+ str(test_label[i]))
+           
+    print("Number of Misclassified is " + str(count))
+    plt.plot(score,best_n)
+    plt.show()
+
+
+
+
 
 
 def findAlpha (a,alpha,EigenValuesSorted):
@@ -110,4 +134,6 @@ for a in chosen_Alpha:
     print("For Alpha: " + str(a))
     
     
-
+Knn(wTrain,train_labels,wTest,test_labels)    
+    
+    
