@@ -7,10 +7,7 @@ Original file is located at
     https://colab.research.google.com/drive/1jn4nwJmYzB0Bup_dsuH29Nb823nQSgOI
 """
 
-<<<<<<< HEAD
-=======
 # !unzip ATT.zip
->>>>>>> ca83ee167c8fb354758cbab5aa45325f10bba861
 import cv2
 import os
 import glob
@@ -20,7 +17,6 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 import matplotlib.pyplot as plt
 
-<<<<<<< HEAD
 def Knn(train_data,train_label,test_data,test_label):
     best_n  = [1,3,5,7]
     score = []
@@ -43,10 +39,8 @@ def Knn(train_data,train_label,test_data,test_label):
 
 img_dir = "D:\PR1\Face-Recognition\ATT" # Enter Directory of all images 
 data_path = os.path.join(img_dir,'*g')
-=======
 img_dir = "./ATT"  # Enter Directory of all images
 data_path = os.path.join(img_dir, '*g')
->>>>>>> ca83ee167c8fb354758cbab5aa45325f10bba861
 files = glob.glob(data_path)
 data = []
 i=0
@@ -56,7 +50,6 @@ for f1 in files:
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     data.append(gray)
     mydata = np.array(data)
-<<<<<<< HEAD
     print("Image : \n",mydata)
 ##fixing shapev->400*10304
 d=np.reshape(mydata, (400, 10304))
@@ -101,7 +94,6 @@ for i in range(d.shape[0]):
       train_labels[i_train] = nameOflabels[i]
       print( nameOflabels[i])
       i_train+=1
-=======
     # print("Image : \n",mydata)
 # fixing shapev->400*10304
 d = np.reshape(mydata, (400, 10304))
@@ -117,16 +109,12 @@ for i in range(1,401):
     if z<1:
         # print("**IF**",personN)
         personN = personN +1
->>>>>>> ca83ee167c8fb354758cbab5aa45325f10bba861
 
 # print(labels)
 
 data = pd.DataFrame(data=d)
-<<<<<<< HEAD
 data['labels'] = nameOflabels
-=======
 data['labels'] = labels
->>>>>>> ca83ee167c8fb354758cbab5aa45325f10bba861
 data.iloc[[0]]
 
 mu_all = [np.mean(data[col]) for col in data.columns[:-1]]
@@ -180,7 +168,6 @@ for i in range(40):
     output = np.matmul(np.transpose(mat),mat)
     S = np.add(S,output)
 print(S.shape)
-<<<<<<< HEAD
 
 E_Values_LDA , E_Vectors_LDA  = LA.eigh(np.matmul(LA.inv(S),b))
 idx = E_Values_LDA.argsort()[::-1]
@@ -189,10 +176,8 @@ E_Vectors_Sorted = E_Vectors_LDA[:,idx]
 U_Train_LDA = np.dot(train_data , E_Vectors_LDA)
 U_Test_LDA = np.dot(test_data , E_Vectors_LDA)
 Knn(U_Train_LDA,train_labels,U_Test_LDA,test_labels)    
-=======
 # print(S)
 
 #eigenvalues and eigenvectors
 eigenvalues,eigenvectors = LA.eigh(np.matmul(LA.inv(S),b))
 print(eigenvectors.shape)
->>>>>>> ca83ee167c8fb354758cbab5aa45325f10bba861
