@@ -10,20 +10,23 @@ Original file is located at
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 
-def KNN(X_train,y_train,X_test,y_test):
-    best_n = [1,3,5,7]
+def KNNClassifier(train_data,train_label,test_data,test_label):
+    best_n  = [1,3,5,7]
     score = []
-    for i in best_n:
-        neigh = KNeighborsClassifier(n_neighbors=i)
-        neigh.fit(X_train, y_train)
-        pred = neigh.predict(Xtest)
-        score.append((i,accuracy_score(y_test,pred)))
+    for i,neighbour in zip(range(len(best_n )),best_n ):
+        print("When Neighbour = " + "[" + str(neighbour) + "]")
+        KnnTest = KNeighborsClassifier(n_neighbors = neighbour, weights = 'distance') 
+        KnnTest.fit(train_data.T, train_label) 
+        pred = KnnTest.predict(test_data.T)
+        score.append(accuracy_score(output,test_label)) 
+        print("Accuracy score is: " + str(score[i]))
+        count = 0
+        for i in range(len(output)):
+            print("[" + str(i) + "]" + "Classified as: "+ str(pred[i]) +" Actual is: "+ str(test_label[i]))
+            if((output[i]) != (score[i])):
+                print("Misclassified")
+                count+=1
+    print("Number of Misclassified is " + str(count))
+    plt.plot(score,best_n)
+    plt.show()
 
-    return max(score,key= lambda x:x[1])
-
-#X_train_test 10% of X_train
-n,score = KNN(X_train,y_train,X_train_test,y_train_test)
-neigh = KNeighborsClassifier(n_neighbors=n)
-neigh.fit(X_train, y_train)
-pred = neigh.predict(Xtest)
-score.append((i,accuracy_score(y_test,pred)))
