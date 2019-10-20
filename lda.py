@@ -7,7 +7,7 @@ Original file is located at
     https://colab.research.google.com/drive/1jn4nwJmYzB0Bup_dsuH29Nb823nQSgOI
 """
 
-# !unzip ATT.zip
+!unzip ATT.zip
 import cv2
 import os
 import glob
@@ -17,25 +17,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 import matplotlib.pyplot as plt
 
-def Knn(train_data,train_label,test_data,test_label):
-    best_n  = [1,3,5,7]
-    score = []
-    for i,neighbour in zip(range(len(best_n )),best_n ):
-        KnnTest = KNeighborsClassifier(n_neighbors = neighbour, weights = 'distance') 
-        KnnTest.fit(train_data.T, train_label) 
-        pred = KnnTest.predict(test_data.T)
-        score.append(accuracy_score(pred,test_label)) 
-        print("Accuracy score is: " + str(score[i]))
-        count = 0
-        for i in range(len(pred)):
-            print("[" + str(i) + "]" + "Classified as: "+ str(pred[i]) +" Actual is: "+ str(test_label[i]))
-            
-    print("Number of Misclassified is " + str(count))
-    plt.plot(score,best_n)
-    plt.show()
-
-
-
+#reading images and putting them into d ,, then reshaping d (44,10304)
 
 img_dir = "./ATT"  # Enter Directory of all images
 data_path = os.path.join(img_dir, '*g')
@@ -53,50 +35,7 @@ for f1 in files:
 d=np.reshape(mydata, (400, 10304))
 print("Shape od D matrix :",d.shape)
 
-#prepare the Labels
-nameOflabels = []
-label=1
-
-for i in range(1,401):
-
-    labelX= str(label)
-    nameOflabels.append(labelX)
-    z=i%40
-    if z<1:
-
-         print("**IF**",label)
-         label = label +1
-     
-         
-df = pd.DataFrame(d, index=nameOflabels)
-i_train=0
-i_test=0
-train_split_value = int(d.shape[0]*(5/10))
-test_split_value = d.shape[0] - train_split_value
-    
-train_data = np.zeros((train_split_value,10304))
-train_labels = np.zeros((train_split_value,1)) 
-    
-test_data = np.zeros((test_split_value,10304))
-test_labels = np.zeros((test_split_value,1))
-for i in range(d.shape[0]):
-        #even
-    if i%2==0:
-       test_data[i_test,:] = d[i]
-       test_labels[i_test] = nameOflabels[i]
-       i_test+=1
-        #odd
-    
-    else:
-      train_data[i_train,:] = d[i]
-      train_labels[i_train] = nameOflabels[i]
-      print( nameOflabels[i])
-      i_train+=1
-    # print("Image : \n",mydata)
-# fixing shapev->400*10304
-d = np.reshape(mydata, (400, 10304))
-print("Shape od D matrix :", d.shape)
-
+# assiging labels
 labels = []
 personN=1
 for i in range(1,401):
@@ -111,17 +50,55 @@ for i in range(1,401):
 # print(labels)
 
 data = pd.DataFrame(data=d)
-data['labels'] = nameOflabels
-data.iloc[[0]]
+data['labels'] = labels
+# data.iloc[[0]]
+
+#splitting the data
+X = data.drop('labels',axis = 1)
+
+i_train=0
+i_test=0
+train_split_value = int(d.shape[0]*(5/10))
+test_split_value = d.shape[0] - train_split_value
+    
+X_train = np.zeros((train_split_value,10304))
+y_train = np.zeros((train_split_value,1)) 
+    
+X_test = np.zeros((test_split_value,10304))
+y_test = np.zeros((test_split_value,1))
+
+for i in range(400):
+    if i%2==0:
+        X_test[i_test,:] = X.iloc[i]
+        y_test[i_test] = labels[i]
+        i_test+=1
+        #odd
+    
+    else:
+        X_train[i_train,:] = X.iloc[i]
+        y_train[i_train] = labels[i]
+        i_train+=1
+        
+
+train_data = pd.DataFrame(data = X_train)
+train_data['labels'] = y_train
+
+test_data = pd.DataFrame(data = X_test)
+test_data['labels'] = y_test
+
+# print(test_data.head(20))
+
+############################### lda code #######################################
+
+data = train_data
 
 mu_all = [np.mean(data[col]) for col in data.columns[:-1]]
-len(mu_all)
 
 from numpy import linalg as LA 
 
 
 labels = data.labels.unique()
-mu = []  
+mu= []  
 l =0
 
 #means
@@ -130,7 +107,7 @@ for i in labels:
     for col in data.columns[:-1]:
         means.append(np.mean(data[data['labels'] == i][col]))
     mu.append(means)
-print(len(mu),len(mu[0]))
+print('mus',len(mu),len(mu[0]))
 
 # b 
 i =0
@@ -138,8 +115,8 @@ b = np.zeros((10304,10304))
 
 for i in range(40):
     mat_diff = np.reshape(np.subtract(mu[i],mu_all),(10304,1))
-    b = np.add(b,10*np.matmul(mat_diff,np.transpose(mat_diff)))
-print(b.shape)
+    b = np.add(b,5*np.matmul(mat_diff,np.transpose(mat_diff)))
+print('shape of b',b.shape)
 # print(np.transpose(matt_diff).shape)
 
 #z[i]
@@ -150,35 +127,63 @@ for i in range(40):
     d = d.drop('labels',axis=1)
 
     class_mean = np.reshape(mu[i],(10304,1))
-    mean_by_ones_transpose =np.matmul(np.ones((10,1)),np.transpose(class_mean))
+    mean_by_ones_transpose =np.matmul(np.ones((5,1)),np.transpose(class_mean))
     z.append(np.subtract(d,mean_by_ones_transpose))
 
-# print(data.shape)
-# print('data shape',d.shape)
-# print(mean_by_ones_transpose.shape)
-# z = np.array(z)
-
-#s[i]
+#s[i] and S
 S = np.zeros((10304,10304))
 for i in range(40):
     mat = np.array(z[i])
     output = np.matmul(np.transpose(mat),mat)
     S = np.add(S,output)
-print(S.shape)
+print('shape of S',S.shape)
 
+##################there is an error in this part ###############################
+
+#eigen values and vectors && choosing best 39 vector
 E_Values_LDA , E_Vectors_LDA  = LA.eigh(np.matmul(LA.inv(S),b))
 idx = E_Values_LDA.argsort()[::-1]##
 E_Values_Sorted = E_Values_LDA[idx]
 E_Vectors_Sorted = E_Vectors_LDA[:,idx]
 projMatrix = E_Vectors_Sorted[:,:39]  # first 39 columns 
+print(projMatrix.shape)
+
+#projected data
+
+U_Train_LDA_projection = train_data.drop('labels',axis=1).dot(projMatrix)
+U_Test_LDA_projection = test_data.drop('labels',axis=1).dot(projMatrix)
+
+print('U_Train_LDA_projection',U_Train_LDA_projection.shape)
+print('U_Test_LDA_projection',U_Test_LDA_projection.shape)
+
+def Knn(train_data,train_label,test_data,test_label):
+    best_n  = [1,3,5,7]
+    score = []
+    
+    train_label = np.reshape(np.array(train_label),(200,1))
+    test_label = np.reshape(np.array(test_label),(200,1))
+    print(train_data.shape)
+    print(train_label.shape)
+    print(test_data.shape)
+    print(test_label.shape)
+    
+    for i,neighbour in zip(range(len(best_n )),best_n ):
+        KnnTest = KNeighborsClassifier(n_neighbors = neighbour, weights = 'distance') 
+        
+        KnnTest.fit(train_data, train_label) 
+        
+        pred = KnnTest.predict(test_data)
+        
+        score.append(accuracy_score(pred,test_label)) 
+        
+        count = 0
+        for i in range(len(pred)):
+            print("[" + str(i) + "]" + "Classified as: "+ str(pred[i]) +" Actual is: "+ str(test_label[i]))
+            
+    print("Number of Misclassified is " + str(count))
+    plt.plot(score,best_n)
+    plt.show()
 
 
-U_Train_LDA_projection = np.dot(train_data , projMatrix)
-U_Test_LDA_projection = np.dot(test_data , projMatrix)
 
-
-Knn(U_Train_LDA_projection,train_labels,U_Test_LDA_projection,test_labels)    
-
-
-
-#eigenvalues and eigenvectors
+Knn(U_Train_LDA_projection,train_data['labels'],U_Test_LDA_projection,test_data['labels'])
