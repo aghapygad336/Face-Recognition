@@ -38,7 +38,7 @@ def findAlpha (a,alpha,EigenValuesSorted):
             return i
 
 
-img_dir = "D:\PR1\Face-Recognition\ATT" # Enter Directory of all images 
+img_dir = "./ATT" # Enter Directory of all images 
 data_path = os.path.join(img_dir,'*g')
 files = glob.glob(data_path)
 data = []
@@ -64,8 +64,6 @@ for i in range(1,401):
     nameOflabels.append(labelX)
     z=i%40
     if z<1:
-
-         print("**IF**",label)
          label = label +1
      
          
@@ -91,11 +89,10 @@ for i in range(d.shape[0]):
     else:
       train_data[i_train,:] = d[i]
       train_labels[i_train] = nameOflabels[i]
-      print( nameOflabels[i])
       i_train+=1
       
       
-print ("*******************PCA****************")      
+print ("PCA Function : ")      
 #mean
 from numpy import linalg as LA 
       
@@ -120,8 +117,7 @@ idx = eigenValues_train_data.argsort()[::-1]
 eigenValuesSorted = eigenValues_train_data[idx]
 eigenVectorsSorted = eigenVectors_train_data[:,idx]
 
-#type(eigenVectorsSorted)
-#Out[3]: numpy.ndarray
+
 
 
 #select largest 
