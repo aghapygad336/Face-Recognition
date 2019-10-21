@@ -7,6 +7,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 import matplotlib.pyplot as plt
 
+
 def Knn(train_data,train_label,test_data,test_label):
     best_n  = [1,3,5,7]
     score = []
@@ -38,7 +39,7 @@ def findAlpha (a,alpha,EigenValuesSorted):
             return i
 
 
-img_dir = "D:\PR1\Face-Recognition\ATT" # Enter Directory of all images 
+img_dir = "./Non-Face"# Enter Directory of all images 
 data_path = os.path.join(img_dir,'*g')
 files = glob.glob(data_path)
 data = []
@@ -46,7 +47,9 @@ i=0
 for f1 in files:
     i=i+1
     img = cv2.imread(f1)
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    dim=(112,92)
+    resized = cv2.resize(img, dim, interpolation = cv2.INTER_AREA)
+    gray = cv2.cvtColor(resized, cv2.COLOR_BGR2GRAY)
     data.append(gray)
     mydata = np.array(data)
     print("Image : \n",mydata)
