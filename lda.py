@@ -7,7 +7,6 @@ Original file is located at
     https://colab.research.google.com/drive/1jn4nwJmYzB0Bup_dsuH29Nb823nQSgOI
 """
 
-!unzip ATT.zip
 import cv2
 import os
 import glob
