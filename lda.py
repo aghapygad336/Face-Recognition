@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 
 #reading images and putting them into d ,, then reshaping d (44,10304)
 
-img_dir = "./ATT"  # Enter Directory of all images
+img_dir = "./Non-Face"  # Enter Directory of all images
 data_path = os.path.join(img_dir, '*g')
 files = glob.glob(data_path)
 data = []
@@ -26,7 +26,9 @@ i=0
 for f1 in files:
     i=i+1
     img = cv2.imread(f1)
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    dim=(92,112)
+    resized = cv2.resize(img, dim, interpolation = cv2.INTER_AREA)
+    gray = cv2.cvtColor(resized, cv2.COLOR_BGR2GRAY)
     data.append(gray)
     mydata = np.array(data)
     print("Image : \n",mydata)
