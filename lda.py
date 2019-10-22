@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 
 #reading images and putting them into d ,, then reshaping d (44,10304)
 
-img_dir = "./Non-Face"  # Enter Directory of all images
+img_dir = "./ATT"  # Enter Directory of all images
 data_path = os.path.join(img_dir, '*g')
 files = glob.glob(data_path)
 data = []
@@ -87,21 +87,14 @@ train_data['labels'] = y_train
 test_data = pd.DataFrame(data = X_test)
 test_data['labels'] = y_test
 
-# print(test_data.head(20))
 
-############################### lda code #######################################
 
 data = train_data
-
 mu_all = [np.mean(data[col]) for col in data.columns[:-1]]
-
 from numpy import linalg as LA 
-
-
 labels = data.labels.unique()
 mu= []  
 l =0
-
 #means
 for i in labels:
     means=[]
@@ -139,7 +132,6 @@ for i in range(40):
     S = np.add(S,output)
 print('shape of S',S.shape)
 
-##################there is an error in this part ###############################
 
 #eigen values and vectors && choosing best 39 vector
 E_Values_LDA , E_Vectors_LDA  = LA.eigh(np.matmul(LA.inv(S),b))
@@ -170,19 +162,13 @@ def Knn(train_data,train_label,test_data,test_label):
     
     for i,neighbour in zip(range(len(best_n )),best_n ):
         KnnTest = KNeighborsClassifier(n_neighbors = neighbour, weights = 'distance') 
-        
         KnnTest.fit(train_data, train_label) 
-        
         pred = KnnTest.predict(test_data)
-        
         score.append(accuracy_score(pred,test_label)) 
-        
-        count = 0
-        for i in range(len(pred)):
-            print("[" + str(i) + "]" + "Classified as: "+ str(pred[i]) +" Actual is: "+ str(test_label[i]))
-            
-    print("Number of Misclassified is " + str(count))
+      
     plt.plot(score,best_n)
+    plt.xlabel('Accuracy')
+    plt.ylabel('KNN')
     plt.show()
 
 

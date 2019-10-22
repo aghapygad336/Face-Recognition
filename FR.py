@@ -7,8 +7,8 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 import matplotlib.pyplot as plt
 
-def Knn(train_data,train_label,test_data,test_label,alpha):
-    best_n  = [1,3,5,7]
+def Knn(train_data,train_label,test_data,test_label,alpha,best_n):
+      
     score = []
     for i,neighbour in zip(range(len(best_n )),best_n ):
         KnnTest = KNeighborsClassifier(n_neighbors = neighbour, weights = 'distance') 
@@ -18,14 +18,17 @@ def Knn(train_data,train_label,test_data,test_label,alpha):
         print(score)
         
     plt.plot(score,best_n)
-    plt.show()
-    plt.plot(alpha,best_n)
+    plt.xlabel('Accuracy')
+    plt.ylabel('KNN')
     plt.show()
     
-
-
-
-
+    
+    plt.plot(alpha,score)
+    plt.xlabel('Accuracy')
+    plt.ylabel('ALpha')
+    plt.show()
+    
+    
 
 
 def findAlpha (a,alpha,EigenValuesSorted):
@@ -37,7 +40,9 @@ def findAlpha (a,alpha,EigenValuesSorted):
             return i
 
 
-img_dir = "./ATT" # Enter Directory of all images 
+
+
+img_dir = "./Nature" # Enter Directory of all images 
 data_path = os.path.join(img_dir,'*g')
 files = glob.glob(data_path)
 data = []
@@ -51,7 +56,7 @@ for f1 in files:
     data.append(gray)
     mydata = np.array(data)
 d=np.reshape(mydata, (400, 10304))
-print("Shape od D matrix :",d.shape)
+print("Shape of D matrix :",d.shape)
 
 #prepare the Labels
 nameOflabels = []
@@ -118,6 +123,7 @@ eigenVectorsSorted = eigenVectors_train_data[:,idx]
 
 #select largest 
 chosen_Alpha= [0.8,0.85,0.9,0.95]
+best_n = [1,3,5,7]
 for a in chosen_Alpha:
     W= findAlpha(0,a,eigenValuesSorted)
     NewW = eigenVectorsSorted[: , 0 : W + 1]
@@ -126,6 +132,6 @@ for a in chosen_Alpha:
     print("For Alpha: " + str(a))
     
     
-Knn(wTrain,train_labels,wTest,test_labels,chosen_Alpha)    
+Knn(wTrain,train_labels,wTest,test_labels,chosen_Alpha,best_n)   
     
     
