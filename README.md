@@ -4,7 +4,8 @@ Face-Recognition using LDA & PCA
 
 # Data Set
 I used the ORL dataset which has 10 images per 40 people,Every image is a grayscale image of size 92x112.
-For more information about the data set ATT
+For more information about the data set ATT,Non-Face,Nature
+https://drive.google.com/open?id=1N1_xV2rIsfcH1JOA1CjzSZudguhj6HdL
 
 
 # Steps
