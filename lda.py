@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 
 #reading images and putting them into d ,, then reshaping d (44,10304)
 
-img_dir = "./ATT"  # Enter Directory of all images
+img_dir = "./Nature"  # Enter Directory of all images
 data_path = os.path.join(img_dir, '*g')
 files = glob.glob(data_path)
 data = []
