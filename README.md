@@ -17,6 +17,8 @@ https://drive.google.com/open?id=1N1_xV2rIsfcH1JOA1CjzSZudguhj6HdL
 
 # Results 
 PCA : 95%
+![knnaccuracy PCA](https://user-images.githubusercontent.com/46167070/67467615-5b850300-f649-11e9-8114-b8667a2a28f2.PNG)
+
 LDA : we  tried for the values of k and 39 dominant vectors.
 
 
