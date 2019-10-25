@@ -12,10 +12,10 @@ https://drive.google.com/open?id=1N1_xV2rIsfcH1JOA1CjzSZudguhj6HdL
 
 # Steps
 
-1-Read the images and convert into a vector of 10304 (92*112) values corresponding to the image size.
-2-Split the data to training and testing with a percantage of 50 % for each batch
-3-Apply the LDA algorithm steps with a final goal of computing the eigen-values and eigen-vectors
-4-Apply the KNN algorithm with different K valuesfor the calssification phase, prediction the values of the test data batch and calculating the accuracy
+<li>1-Read the images and convert into a vector of 10304 (92*112) values corresponding to the image size.<li>
+<li>2-Split the data to training and testing with a percantage of 50 % for each batch.<li>
+<li>3-Apply the LDA algorithm steps with a final goal of computing the eigen-values and eigen-vectors<li>
+<li><li>4-Apply the KNN algorithm with different K valuesfor the calssification phase, prediction the values of the test data batch and calculating the accuracy<li>
 
 #Results
 
