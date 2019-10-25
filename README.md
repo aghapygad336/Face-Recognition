@@ -17,7 +17,7 @@ https://drive.google.com/open?id=1N1_xV2rIsfcH1JOA1CjzSZudguhj6HdL
 <li>Apply the LDA algorithm steps with a final goal of computing the eigen-values and eigen-vectors</li>
 <li>4-Apply the KNN algorithm with different K valuesfor the calssification phase, prediction the values of the test data batch and calculating the accuracy</li>
 
-#Results
+# Results
 
 ![pca](https://user-images.githubusercontent.com/46167070/67558549-79b93480-f717-11e9-9756-20467f8f79e6.PNG)
 ![LDA](https://user-images.githubusercontent.com/46167070/67561777-bdaf3800-f71d-11e9-9811-f27d51457bcc.png)
